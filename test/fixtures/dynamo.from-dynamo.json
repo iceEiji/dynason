@@ -1,0 +1,14 @@
+{
+  "id": "123",
+  "name": "test item",
+  "price": 1000,
+  "inStock": true,
+  "tags": [
+    "electronics",
+    "gadget"
+  ],
+  "metadata": {
+    "created": "2024-04-03",
+    "rating": 4.5
+  }
+}

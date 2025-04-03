@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import { fromDynamoJson, toDynamoJson } from "./src/convert.ts";
 
 async function readJsonFile(path: string): Promise<any> {

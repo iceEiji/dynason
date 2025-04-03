@@ -7,14 +7,18 @@ A command-line utility to convert between DynamoDB JSON and normal JSON formats.
 - Convert DynamoDB JSON to normal JSON format
 - Convert normal JSON to DynamoDB JSON format
 - Simple command-line interface
+- Available as both Deno module and npm package
 - Automatic output file naming
-- Built with Deno and TypeScript
-
-## Prerequisites
-
-- [Deno](https://deno.land/) installed
 
 ## Installation
+
+### Using npm (Recommended)
+
+```bash
+npm install -g dynason
+```
+
+### Using Deno
 
 1. Clone this repository:
 ```bash
@@ -22,23 +26,25 @@ git clone https://github.com/iceEiji/dynason.git
 cd dynason
 ```
 
-2. (Optional) Create aliases for easier use:
-```bash
-# Add these to your shell configuration file (.zshrc, .bashrc, etc.)
-alias from-dynamo="deno task from-dynamo"
-alias to-dynamo="deno task to-dynamo"
-```
-
 ## Usage
+
+### As a global command (npm)
 
 Convert DynamoDB JSON to normal JSON:
 ```bash
-deno task from-dynamo input.json [output.json]
+dynason from-dynamo input.json [output.json]
 ```
 
 Convert normal JSON to DynamoDB JSON:
 ```bash
-deno task to-dynamo input.json [output.json]
+dynason to-dynamo input.json [output.json]
+```
+
+### Using Deno
+
+```bash
+deno task dynason from-dynamo input.json [output.json]
+deno task dynason to-dynamo input.json [output.json]
 ```
 
 If output file is not specified, it will create a new file with a modified name:
@@ -49,29 +55,36 @@ If output file is not specified, it will create a new file with a modified name:
 
 Convert DynamoDB JSON to normal JSON:
 ```bash
-deno task from-dynamo data.json
+dynason from-dynamo data.json
 # Creates data.from-dynamo.json
 
 # With specific output file
-deno task from-dynamo data.json normal.json
+dynason from-dynamo data.json normal.json
 ```
 
 Convert normal JSON to DynamoDB JSON:
 ```bash
-deno task to-dynamo input.json
+dynason to-dynamo input.json
 # Creates input.to-dynamo.json
 
 # With specific output file
-deno task to-dynamo input.json dynamo.json
+dynason to-dynamo input.json dynamo.json
 ```
 
 ## Development
+
+### Prerequisites
+
+- [Deno](https://deno.land/) installed
 
 ### Commands
 
 ```bash
 # Run tests
 deno test
+
+# Build npm package
+deno task build:npm
 ```
 
 ## License
