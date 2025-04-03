@@ -1,12 +1,35 @@
 #!/usr/bin/env node
 import { fromDynamoJson, toDynamoJson } from "./src/convert.ts";
 
-async function readJsonFile(path: string): Promise<any> {
+// Normal JSON types
+type JsonPrimitive = string | number | boolean | null;
+type JsonArray = JsonValue[];
+type JsonObject = { [key: string]: JsonValue };
+type JsonValue = JsonPrimitive | JsonObject | JsonArray;
+
+// DynamoDB specific types
+type DynamoDBValue = {
+  S?: string;
+  N?: string;
+  BOOL?: boolean;
+  NULL?: boolean;
+  L?: DynamoDBValue[];
+  M?: { [key: string]: DynamoDBValue };
+};
+
+type DynamoDBJson = { [key: string]: DynamoDBValue };
+type NormalJson = JsonObject;
+
+async function readJsonFile(path: string): Promise<JsonObject> {
   const text = await Deno.readTextFile(path);
-  return JSON.parse(text);
+  const json = JSON.parse(text);
+  if (!json || typeof json !== "object" || Array.isArray(json)) {
+    throw new Error("Invalid JSON format: must be an object");
+  }
+  return json as JsonObject;
 }
 
-async function writeJsonFile(path: string, data: any): Promise<void> {
+async function writeJsonFile(path: string, data: JsonObject): Promise<void> {
   await Deno.writeTextFile(path, JSON.stringify(data, null, 2));
 }
 
@@ -61,13 +84,13 @@ async function main() {
     const normalizedOperation = operation === "f" ? "from-dynamo" : operation === "t" ? "to-dynamo" : operation;
     const finalOutputPath = outputPath || generateOutputPath(inputPath, normalizedOperation);
 
-    let result;
+    let result: JsonObject;
     switch (normalizedOperation) {
       case "from-dynamo":
-        result = fromDynamoJson(inputJson);
+        result = fromDynamoJson(inputJson as DynamoDBJson);
         break;
       case "to-dynamo":
-        result = toDynamoJson(inputJson);
+        result = toDynamoJson(inputJson as NormalJson);
         break;
       default:
         console.error(`Error: Unknown operation '${operation}'`);
