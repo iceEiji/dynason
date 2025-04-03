@@ -1,10 +1,6 @@
 {
-  "name": "dynason",
-  "version": "0.1.0",
   "tasks": {
-    "dev": "deno run --allow-read --allow-write mod.ts",
     "test": "deno test --allow-read --allow-write",
-    "build:npm": "deno run -A scripts/build_npm.ts",
     "from-dynamo": "deno run --allow-read --allow-write cli.ts from-dynamo",
     "to-dynamo": "deno run --allow-read --allow-write cli.ts to-dynamo"
   },
