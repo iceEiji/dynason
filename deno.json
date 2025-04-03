@@ -21,6 +21,7 @@
     }
   },
   "imports": {
-    "@aws-sdk/util-dynamodb": "npm:@aws-sdk/util-dynamodb"
+    "@aws-sdk/util-dynamodb": "npm:@aws-sdk/util-dynamodb",
+    "@aws-sdk/client-dynamodb": "npm:@aws-sdk/client-dynamodb"
   }
 }

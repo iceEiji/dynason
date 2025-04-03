@@ -1,24 +1,7 @@
 #!/usr/bin/env node
 import { fromDynamoJson, toDynamoJson } from "./src/convert.ts";
-
-// Normal JSON types
-type JsonPrimitive = string | number | boolean | null;
-type JsonArray = JsonValue[];
-type JsonObject = { [key: string]: JsonValue };
-type JsonValue = JsonPrimitive | JsonObject | JsonArray;
-
-// DynamoDB specific types
-type DynamoDBValue = {
-  S?: string;
-  N?: string;
-  BOOL?: boolean;
-  NULL?: boolean;
-  L?: DynamoDBValue[];
-  M?: { [key: string]: DynamoDBValue };
-};
-
-type DynamoDBJson = { [key: string]: DynamoDBValue };
-type NormalJson = JsonObject;
+import type { AttributeValue } from "@aws-sdk/client-dynamodb";
+import type { JsonObject } from "./src/types.ts";
 
 async function readJsonFile(path: string): Promise<JsonObject> {
   const text = await Deno.readTextFile(path);
@@ -29,7 +12,7 @@ async function readJsonFile(path: string): Promise<JsonObject> {
   return json as JsonObject;
 }
 
-async function writeJsonFile(path: string, data: JsonObject): Promise<void> {
+async function writeJsonFile(path: string, data: JsonObject | Record<string, AttributeValue>): Promise<void> {
   await Deno.writeTextFile(path, JSON.stringify(data, null, 2));
 }
 
@@ -84,13 +67,14 @@ async function main() {
     const normalizedOperation = operation === "f" ? "from-dynamo" : operation === "t" ? "to-dynamo" : operation;
     const finalOutputPath = outputPath || generateOutputPath(inputPath, normalizedOperation);
 
-    let result: JsonObject;
+    let result: JsonObject | Record<string, AttributeValue>;
     switch (normalizedOperation) {
       case "from-dynamo":
-        result = fromDynamoJson(inputJson as DynamoDBJson);
+        // Safe type casting through unknown
+        result = fromDynamoJson((inputJson as unknown) as Record<string, AttributeValue>);
         break;
       case "to-dynamo":
-        result = toDynamoJson(inputJson as NormalJson);
+        result = toDynamoJson(inputJson);
         break;
       default:
         console.error(`Error: Unknown operation '${operation}'`);
