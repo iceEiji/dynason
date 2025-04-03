@@ -50,8 +50,13 @@ dynason --help  # or dynason -h
 ### Using Deno
 
 ```bash
+# Using full commands
 deno task dynason from-dynamo input.json [output.json]
 deno task dynason to-dynamo input.json [output.json]
+
+# Using short commands
+deno task f input.json [output.json]
+deno task t input.json [output.json]
 ```
 
 If output file is not specified, it will create a new file with a modified name:
