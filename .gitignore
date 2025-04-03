@@ -9,6 +9,10 @@
 # Test directories
 /test-npm-package/
 
+# Generated files
+*.from-dynamo.json
+*.to-dynamo.json
+
 # Environment specific
 .env
 .env.*
