@@ -16,32 +16,53 @@ function generateOutputPath(inputPath: string, operation: string): string {
   return `${baseName}.${operation}${extension}`;
 }
 
-async function main() {
-  const [operation, inputPath, outputPath] = Deno.args;
+function showHelp() {
+  console.log(`
+dynason - Convert between DynamoDB JSON and normal JSON formats
 
-  if (!operation || !inputPath) {
-    console.error(`
 Usage:
-  deno run -A cli.ts <operation> <input-file> [output-file]
+  dynason <operation> <input-file> [output-file]
 
 Operations:
-  from-dynamo  Convert DynamoDB JSON to normal JSON
-  to-dynamo    Convert normal JSON to DynamoDB JSON
+  from-dynamo, f  Convert DynamoDB JSON to normal JSON
+  to-dynamo, t    Convert normal JSON to DynamoDB JSON
 
 Arguments:
-  input-file   Path to the input JSON file
-  output-file  (Optional) Path to the output JSON file
-               If not specified, will create a new file with modified name
-    `);
+  input-file      Path to the input JSON file
+  output-file     (Optional) Path to the output JSON file
+                  If not specified, will create a new file with modified name
+
+Options:
+  -h, --help      Show this help message
+
+Examples:
+  dynason f data.json              # Convert DynamoDB JSON to normal JSON
+  dynason t input.json output.json # Convert normal JSON to DynamoDB JSON
+`);
+}
+
+async function main() {
+  const args = Deno.args;
+  
+  if (args.length === 0 || args[0] === "-h" || args[0] === "--help") {
+    showHelp();
+    Deno.exit(args.length === 0 ? 1 : 0);
+  }
+
+  const [operation, inputPath, outputPath] = args;
+
+  if (!inputPath) {
+    showHelp();
     Deno.exit(1);
   }
 
   try {
     const inputJson = await readJsonFile(inputPath);
-    const finalOutputPath = outputPath || generateOutputPath(inputPath, operation);
+    const normalizedOperation = operation === "f" ? "from-dynamo" : operation === "t" ? "to-dynamo" : operation;
+    const finalOutputPath = outputPath || generateOutputPath(inputPath, normalizedOperation);
 
     let result;
-    switch (operation) {
+    switch (normalizedOperation) {
       case "from-dynamo":
         result = fromDynamoJson(inputJson);
         break;
@@ -50,6 +71,7 @@ Arguments:
         break;
       default:
         console.error(`Error: Unknown operation '${operation}'`);
+        showHelp();
         Deno.exit(1);
     }
 

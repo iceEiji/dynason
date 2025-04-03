@@ -32,12 +32,19 @@ cd dynason
 
 Convert DynamoDB JSON to normal JSON:
 ```bash
-dynason from-dynamo input.json [output.json]
+dynason from-dynamo input.json [output.json]  # Full command
+dynason f input.json [output.json]            # Short form
 ```
 
 Convert normal JSON to DynamoDB JSON:
 ```bash
-dynason to-dynamo input.json [output.json]
+dynason to-dynamo input.json [output.json]    # Full command
+dynason t input.json [output.json]            # Short form
+```
+
+Show help:
+```bash
+dynason --help  # or dynason -h
 ```
 
 ### Using Deno
