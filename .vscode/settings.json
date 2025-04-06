@@ -1,5 +1,6 @@
 {
     "cSpell.words": [
         "dynason"
-    ]
+    ],
+    "deno.enable": true
 }
