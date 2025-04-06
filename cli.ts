@@ -3,6 +3,12 @@ import { fromDynamoJson, toDynamoJson } from "./src/convert.ts";
 import type { AttributeValue } from "@aws-sdk/client-dynamodb";
 import type { JsonObject } from "./src/types.ts";
 
+/**
+ * Read a JSON file and parse it into a JSON object
+ * @param path Path to the JSON file
+ * @returns Parsed JSON object
+ * @throws Error if file is not a valid JSON object
+ */
 async function readJsonFile(path: string): Promise<JsonObject> {
   const text = await Deno.readTextFile(path);
   const json = JSON.parse(text);
@@ -12,16 +18,30 @@ async function readJsonFile(path: string): Promise<JsonObject> {
   return json as JsonObject;
 }
 
+/**
+ * Write JSON data to a file
+ * @param path Output file path
+ * @param data JSON data to write (either normal or DynamoDB format)
+ */
 async function writeJsonFile(path: string, data: JsonObject | Record<string, AttributeValue>): Promise<void> {
   await Deno.writeTextFile(path, JSON.stringify(data, null, 2));
 }
 
+/**
+ * Generate output file path based on input path and operation
+ * @param inputPath Original file path
+ * @param operation Operation type ('from-dynamo' or 'to-dynamo')
+ * @returns Generated output file path
+ */
 function generateOutputPath(inputPath: string, operation: string): string {
   const extension = inputPath.endsWith(".json") ? ".json" : "";
   const baseName = inputPath.substring(0, inputPath.length - extension.length);
   return `${baseName}.${operation}${extension}`;
 }
 
+/**
+ * Display help message with usage instructions
+ */
 function showHelp() {
   console.log(`
 dynason - Convert between DynamoDB JSON and normal JSON formats
@@ -47,6 +67,10 @@ Examples:
 `);
 }
 
+/**
+ * Main CLI function
+ * Handles command line arguments and executes the appropriate conversion
+ */
 async function main() {
   const args = Deno.args;
   
