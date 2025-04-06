@@ -59,6 +59,62 @@ deno task f input.json [output.json]
 deno task t input.json [output.json]
 ```
 
+### Example Data
+
+Here's a simple example of the conversion between normal JSON and DynamoDB JSON:
+
+Normal JSON:
+```json
+{
+  "id": "123",
+  "name": "example",
+  "count": 42,
+  "isActive": true,
+  "tags": ["a", "b"],
+  "info": {
+    "created": "2024-01-01"
+  }
+}
+```
+
+DynamoDB JSON:
+```json
+{
+  "id": {
+    "S": "123"
+  },
+  "name": {
+    "S": "example"
+  },
+  "count": {
+    "N": "42"
+  },
+  "isActive": {
+    "BOOL": true
+  },
+  "tags": {
+    "L": [
+      { "S": "a" },
+      { "S": "b" }
+    ]
+  },
+  "info": {
+    "M": {
+      "created": {
+        "S": "2024-01-01"
+      }
+    }
+  }
+}
+```
+
+The conversion handles all DynamoDB data types:
+- `S`: String
+- `N`: Number (always as string)
+- `BOOL`: Boolean
+- `L`: List/Array
+- `M`: Map/Object
+
 If output file is not specified, it will create a new file with a modified name:
 - For `from-dynamo`: `input.from-dynamo.json`
 - For `to-dynamo`: `input.to-dynamo.json`
