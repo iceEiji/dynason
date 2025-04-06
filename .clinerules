@@ -1,0 +1,61 @@
+# CLI Development Rules
+
+## Requirements Management
+1. Create a requirements checklist at the start
+   - Identify primary use case (e.g., CLI vs Library)
+   - List all required modules/dependencies
+   - Define success criteria
+
+2. Regular Requirements Review
+   - Check requirements before each implementation step
+   - Track completion of must-have features
+   - Validate against original requirements
+
+## Implementation Process
+1. Prioritize Core Functionality
+   - Implement primary use case first (e.g., CLI interface)
+   - Add secondary features only after core features are complete
+   - Regular testing of main user flows
+
+2. Dependency Management
+   - Document all required dependencies upfront
+   - Validate dependency installation/setup early
+   - Track dependency-related tasks separately
+
+## Quality Assurance
+1. Type Safety
+   - Define types early in development
+   - Avoid 'any' type usage
+   - Regular type checking
+
+2. Error Handling
+   - Implement user-friendly error messages
+   - Handle edge cases appropriately
+   - Validate input/output
+
+3. Documentation
+   - Include example data
+   - Document all supported formats
+   - Provide clear usage instructions
+
+## Review Process
+1. Pre-commit Checks
+   - Requirements validation
+   - Feature completeness check
+   - Documentation updates
+
+2. Regular Progress Review
+   - Compare against requirements checklist
+   - Validate user experience
+   - Check for missing features
+
+## Lessons Learned
+1. Requirements Understanding
+   - Core functionality (CLI vs Library) must be clearly understood
+   - Required modules and dependencies must be tracked
+   - Regular validation against original requirements
+
+2. Implementation Focus
+   - Primary use case should drive development
+   - Dependencies should be managed early
+   - Documentation should grow with implementation
