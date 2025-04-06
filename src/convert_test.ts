@@ -1,4 +1,4 @@
-import { assertEquals } from "https://deno.land/std/testing/asserts.ts";
+import { assertEquals } from "https://deno.land/std@0.224.0/assert/assert_equals.ts";
 import { fromDynamoJson, toDynamoJson } from "./convert.ts";
 
 Deno.test("convert between DynamoDB JSON and normal JSON", () => {
