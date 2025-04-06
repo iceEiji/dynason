@@ -21,6 +21,7 @@ npm install -g dynason
 ### Using Deno
 
 1. Clone this repository:
+
 ```bash
 git clone https://github.com/iceEiji/dynason.git
 cd dynason
@@ -31,18 +32,21 @@ cd dynason
 ### As a global command (npm)
 
 Convert DynamoDB JSON to normal JSON:
+
 ```bash
 dynason from-dynamo input.json [output.json]  # Full command
 dynason f input.json [output.json]            # Short form
 ```
 
 Convert normal JSON to DynamoDB JSON:
+
 ```bash
 dynason to-dynamo input.json [output.json]    # Full command
 dynason t input.json [output.json]            # Short form
 ```
 
 Show help:
+
 ```bash
 dynason --help  # or dynason -h
 ```
@@ -64,6 +68,7 @@ deno task t input.json [output.json]
 Here's a simple example of the conversion between normal JSON and DynamoDB JSON:
 
 Normal JSON:
+
 ```json
 {
   "id": "123",
@@ -78,6 +83,7 @@ Normal JSON:
 ```
 
 DynamoDB JSON:
+
 ```json
 {
   "id": {
@@ -109,6 +115,7 @@ DynamoDB JSON:
 ```
 
 The conversion handles all DynamoDB data types:
+
 - `S`: String
 - `N`: Number (always as string)
 - `BOOL`: Boolean
@@ -116,12 +123,14 @@ The conversion handles all DynamoDB data types:
 - `M`: Map/Object
 
 If output file is not specified, it will create a new file with a modified name:
+
 - For `from-dynamo`: `input.from-dynamo.json`
 - For `to-dynamo`: `input.to-dynamo.json`
 
 ### Examples
 
 Convert DynamoDB JSON to normal JSON:
+
 ```bash
 dynason from-dynamo data.json
 # Creates data.from-dynamo.json
@@ -131,6 +140,7 @@ dynason from-dynamo data.json normal.json
 ```
 
 Convert normal JSON to DynamoDB JSON:
+
 ```bash
 dynason to-dynamo input.json
 # Creates input.to-dynamo.json
